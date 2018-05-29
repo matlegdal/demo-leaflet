@@ -48,3 +48,34 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
+
+function locate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            let posUser = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setView(posUser, 12);
+        }, () => console.error('Erreur: Le service de Geolocation a échoué.'));
+    } else {
+        console.error('Erreur: votre navigateur ne supporte pas la Geolocation.');
+    }
+}
+
+function geoLocator(map) {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                let posUser = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setView(posUser, 12);
+                resolve(posUser);
+            }, () => reject('Erreur: Le service de Geolocation a échoué.'));
+        } else {
+            reject('Erreur: votre navigateur ne supporte pas la Geolocation.');
+        }
+    });
+}

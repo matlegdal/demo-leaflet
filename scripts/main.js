@@ -9,7 +9,8 @@ L.marker(fujitsu).addTo(map)
     .bindPopup('Nos bureaux à Québec!')
     .openPopup();
 
-var info = L.control();
+// Info sur les états
+const info = L.control();
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     this.update();
@@ -23,26 +24,37 @@ info.update = function (props) {
 };
 info.addTo(map);
 
-var legend = L.control({
+// Légende
+const legend = L.control({
     position: 'bottomright'
 });
 legend.onAdd = function (map) {
-
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 10, 20, 50, 100, 200, 500, 1000],
         labels = [];
-
     // loop through our density intervals and generate a label with a colored square for each interval
-    for (var i = 0; i < grades.length; i++) {
+    for (let i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
     }
-
     return div;
 };
 legend.addTo(map);
 
+// Custom control locator
+const locator = L.control({
+    position: 'bottomleft'
+});
+locator.onAdd = function (map) {
+    const div = L.DomUtil.create('div', 'info locator');
+    div.innerHTML = 'Locator';
+    div.addEventListener('click', locate);
+    return div;
+}
+locator.addTo(map);
+
+// Add population density 
 const geojson = L.geoJson(statesData, {
     style,
     onEachFeature
