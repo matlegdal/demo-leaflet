@@ -19,16 +19,16 @@ export default class App extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateFakePosition();
   }
 
   updateFakePosition() {
     const self = this;
     let i = 0;
-    const fakeTracker = setInterval(() => {
+    setInterval(() => {
       if (i >= fakePositions.length) {
-        window.clearInterval(fakeTracker);
+        i = 0;
       } else {
         let [lat, lng] = fakePositions[i].split(',').map(s => Number(s));
         self.setState({ position: { lat, lng } });
