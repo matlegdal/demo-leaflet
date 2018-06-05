@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
 import fakePositions from './data/fakePositions';
 
 export default class App extends Component {
@@ -13,8 +13,7 @@ export default class App extends Component {
         lng: -71.306222
       },
       zoom: 14,
-      animate: true,
-      arrivee: false
+      animate: true
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -62,11 +61,11 @@ export default class App extends Component {
             </span>
           </Popup>
         </Marker>
-        <Marker position={this.state.position}>
+        <CircleMarker center={this.state.position} radius={10} color='red' fillColor="red">
           <Popup>
             <span>Tracker</span>
           </Popup>
-        </Marker>
+        </CircleMarker>
       </Map>
     );
   }
