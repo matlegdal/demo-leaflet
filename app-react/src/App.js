@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import fakePositions from './data/fakePositions';
 
 export default class App extends Component {
   constructor(props) {
@@ -13,8 +14,27 @@ export default class App extends Component {
       },
       zoom: 14,
       animate: true,
+      arrivee: false
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount(){
+    this.updateFakePosition();
+  }
+
+  updateFakePosition() {
+    const self = this;
+    let i = 0;
+    const fakeTracker = setInterval(() => {
+      if (i >= fakePositions.length) {
+        window.clearInterval(fakeTracker);
+      } else {
+        let [lat, lng] = fakePositions[i].split(',').map(s => Number(s));
+        self.setState({ position: { lat, lng } });
+        i++;
+      }
+    }, 1000);
   }
 
   handleClick(e) {
@@ -40,6 +60,11 @@ export default class App extends Component {
             <span>
               Nos bureaux à Québec
             </span>
+          </Popup>
+        </Marker>
+        <Marker position={this.state.position}>
+          <Popup>
+            <span>Tracker</span>
           </Popup>
         </Marker>
       </Map>
