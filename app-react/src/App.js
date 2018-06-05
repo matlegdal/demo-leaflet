@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Map, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
-import fakePositions from './data/fakePositions';
+import {updateFakePosition} from './utils';
 
 export default class App extends Component {
   constructor(props) {
@@ -19,21 +19,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.updateFakePosition();
-  }
-
-  updateFakePosition() {
-    const self = this;
-    let i = 0;
-    setInterval(() => {
-      if (i >= fakePositions.length) {
-        i = 0;
-      } else {
-        let [lat, lng] = fakePositions[i].split(',').map(s => Number(s));
-        self.setState({ position: { lat, lng } });
-        i++;
-      }
-    }, 1000);
+    updateFakePosition.call(this);
   }
 
   handleClick(e) {
